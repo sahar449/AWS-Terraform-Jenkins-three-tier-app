@@ -12,6 +12,15 @@ variable "subnet2_id" {
   
 }
 
-variable "web_instance" {
+variable "ec2_id1" {
+  
+}
+
+variable "ec2_id2" {
+  
+}
+
+
+variable "sg" {
   
 }

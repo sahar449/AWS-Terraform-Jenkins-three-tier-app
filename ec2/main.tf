@@ -1,7 +1,7 @@
 ### main ec2 ###
 
 resource "aws_security_group" "ec2_alb" {
-  name        = "allow_http_ec2 and alb"
+  name        = "sg_nginx1"
   vpc_id      = var.vpc_id
 
   ingress {
@@ -42,7 +42,7 @@ data "aws_ami" "ubuntu" {
 resource "aws_instance" "web1" {
   ami           = data.aws_ami.ubuntu.id
   instance_type = "t2.micro"
-  subnet_id     = var.subnet1_id.id
+  subnet_id     = var.subnet1_id
   vpc_security_group_ids = [aws_security_group.ec2_alb.id]
   user_data = <<-EOF
               #!/bin/bash
@@ -61,7 +61,7 @@ resource "aws_instance" "web1" {
 resource "aws_instance" "web2" {
   ami           = data.aws_ami.ubuntu.id
   instance_type = "t2.micro"
-  subnet_id     = var.subnet2_id.id
+  subnet_id     = var.subnet2_id
   vpc_security_group_ids = [aws_security_group.ec2_alb.id]
   user_data = <<-EOF
               #!/bin/bash
