@@ -64,28 +64,3 @@ resource "aws_route_table_association" "subnet_2_association" {
   subnet_id      = aws_subnet.subnet_2.id
   route_table_id = aws_route_table.my_route_table.id
 }
-
-
-resource "aws_security_group" "ec2_alb" {
-  name        = "allow_http_ec2 and alb"
-  vpc_id      = aws_vpc.my_vpc.id
-
-  ingress {
-    description = "HTTP from anywhere"
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  tags = {
-    Name = "allow_http"
-  }
-}
