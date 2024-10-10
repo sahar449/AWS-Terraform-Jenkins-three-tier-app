@@ -1,15 +1,15 @@
 ### main ec2 ###
 
 resource "aws_security_group" "ec2_alb" {
-  name        = "sg_nginx1"
+  name        = "sg_nginx_new"
   vpc_id      = var.vpc_id
 
   ingress {
-    description = "HTTP from anywhere"
+    description = "Expose port 80 only for my public ip"
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = ["0.0.0.0/0"] 
   }
 
   egress {
@@ -17,10 +17,6 @@ resource "aws_security_group" "ec2_alb" {
     to_port     = 0
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  tags = {
-    Name = "allow_http"
   }
 }
 
@@ -48,7 +44,7 @@ resource "aws_instance" "web1" {
               #!/bin/bash
               apt-get update
               apt-get install -y nginx
-              echo "<h1>Server Private IP: $(hostname -I)</h1>" > /var/www/html/index.html
+              echo "<h1>Sahar Bittman Server 1</h1>" > /var/www/html/index.html
               systemctl start nginx
               systemctl enable nginx
               EOF
@@ -67,7 +63,7 @@ resource "aws_instance" "web2" {
               #!/bin/bash
               apt-get update
               apt-get install -y nginx
-              echo "<h1>Server Private IP: $(hostname -I)</h1>" > /var/www/html/index.html
+              echo "<h1>Sahar Bittman Server 2</h1>" > /var/www/html/index.html
               systemctl start nginx
               systemctl enable nginx
               EOF

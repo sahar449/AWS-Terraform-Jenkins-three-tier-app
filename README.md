@@ -6,7 +6,7 @@ This repository contains the code and configuration for building, configuring, a
 
 ## Terraform Infrastructure
 
-Terraform is used to build the EC2 instances and security groups in AWS, specifically in the `us-east-1` region. Make sure to specify the correct AMI for the region. To insert your public IP into the security groups, modify the `tf_module/main.tf` file at lines (38, 59).
+Terraform is used to build the EC2 instances and security groups in AWS, specifically in the `us-west-2` region. Make sure to specify the correct AMI for the region. To insert your public IP into the security groups, modify the `tf_module/main.tf` file at lines (38, 59).
 
 ## Folder Structure
 
