@@ -43,7 +43,16 @@ module "alb" {
   subnet2_id = module.vpc.subnet2_id
   ec2_id1 = module.ec2.ec2_id1
   ec2_id2 = module.ec2.ec2_id2
-  sg      = module.ec2.sg
+  sg_id     = module.ec2.sg
+}
+
+module "asg" {
+  source = "./asg"
+  subnet1_id = module.vpc.subnet1_id
+  subnet2_id = module.vpc.subnet2_id
+  vpc_id = module.vpc.vpc_id
+  sg_id     = module.ec2.sg
+  lb_target_group_arn = module.alb.target_group_arn
 }
 
 

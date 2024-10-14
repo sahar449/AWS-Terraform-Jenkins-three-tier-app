@@ -44,7 +44,7 @@ resource "aws_instance" "web1" {
               #!/bin/bash
               apt-get update
               apt-get install -y nginx
-              echo "<h1>Sahar Bittman Server 1</h1>" > /var/www/html/index.html
+              echo "Sahar Bittman project: Private IP: $(hostname -I)" > /var/www/html/index.html
               systemctl start nginx
               systemctl enable nginx
               EOF
@@ -63,7 +63,7 @@ resource "aws_instance" "web2" {
               #!/bin/bash
               apt-get update
               apt-get install -y nginx
-              echo "<h1>Sahar Bittman Server 2</h1>" > /var/www/html/index.html
+              echo "Sahar Bittman project: Private IP: $(hostname -I)" > /var/www/html/index.html
               systemctl start nginx
               systemctl enable nginx
               EOF

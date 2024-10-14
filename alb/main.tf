@@ -27,7 +27,7 @@ resource "aws_lb" "web" {
   name               = "web-lb-new"
   internal           = false
   load_balancer_type = "application"
-  security_groups    = [var.sg]
+  security_groups    = [var.sg_id]
   subnets            = [var.subnet1_id, var.subnet2_id]
 
   tags = {

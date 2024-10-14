@@ -26,6 +26,6 @@ variable "ec2_id2" {
 }
 
 
-variable "sg" {
+variable "sg_id" {
   
 }
