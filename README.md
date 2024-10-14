@@ -1,25 +1,65 @@
-# Infrastructure as Code with Terraform
 
-## Overview
+# AWS Terraform ALB Nginx ASG
 
-This repository contains the code and configuration for building, configuring, and orchestrating infrastructure using Terraform. The modules provision resources in AWS, including VPCs, EC2 instances, and security groups. The infrastructure is designed for flexibility and ease of use.
+## Introduction
+This project uses Terraform to provision AWS infrastructure, including a Virtual Private Cloud (VPC), EC2 instances, Application Load Balancer (ALB), and an Auto Scaling Group (ASG) with Nginx web servers. The setup provides a scalable, load-balanced web server environment hosted on AWS.
 
-## Terraform Infrastructure
+## Table of Contents
+- [Introduction](#introduction)
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Configuration](#configuration)
+- [Dependencies](#dependencies)
+- [Contributors](#contributors)
+- [License](#license)
 
-Terraform is used to build the EC2 instances and security groups in AWS, specifically in the `us-west-2` region. Make sure to specify the correct AMI for the region. To insert your public IP into the security groups, modify the `tf_module/main.tf` file at lines (38, 59).
+## Features
+- Deploys a fully configurable VPC
+- Creates EC2 instances using an Auto Scaling Group
+- Configures an Application Load Balancer to distribute traffic
+- Automatically installs and configures Nginx on each EC2 instance
 
-## Folder Structure
+## Installation
 
-- `/tf_module`: Terraform configuration files for infrastructure provisioning.
-- `/modules`: Contains various modules for specific components (e.g., VPC, EC2, ALB).
-- `main.tf`: The main Terraform configuration that orchestrates the modules.
+### Prerequisites
+- [Terraform](https://www.terraform.io/downloads.html) installed
+- AWS CLI configured with appropriate credentials
+- AWS account with permissions for VPC, EC2, and ALB resources
 
-## Getting Started
+### Steps
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/sahar449/AWS-tf-alb-Nginx-ASG.git
+   ```
+2. Navigate into the project directory:
+   ```bash
+   cd AWS-tf-alb-Nginx-ASG
+   ```
+3. Initialize the Terraform modules:
+   ```bash
+   terraform init
+   ```
+4. Review and modify variables in `variables.tf` as needed.
+5. Apply the configuration:
+   ```bash
+   terraform apply
+   ```
 
-### Clone the Repository
+## Usage
+Once the infrastructure is deployed, the ALB DNS name will be displayed as part of the Terraform output. You can access the Nginx web server by navigating to the ALB's DNS in your browser.
 
-To get started, clone the repository:
+## Configuration
+- Modify the `variables.tf` file to adjust VPC settings, instance types, ASG sizes, and more.
+- Security groups and networking details can be customized based on your environment.
 
-```bash
-git clone https://github.com/sahar449/tf-modulels.git
-cd tf-modulels
+## Dependencies
+- Terraform >= 0.12
+- AWS CLI
+- Nginx (automatically installed on EC2 instances)
+
+## Contributors
+- [sahar449](https://github.com/sahar449)
+
+## License
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
