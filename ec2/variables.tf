@@ -14,8 +14,3 @@ variable "subnet2_id" {
   description = "subnet2 id"
   type        = string
 }
-
-variable "instance_type" {
-  type        = string
-  default     = "t2.micro"
-}

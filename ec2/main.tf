@@ -56,7 +56,7 @@ resource "aws_instance" "web1" {
 
 resource "aws_instance" "web2" {
   ami           = data.aws_ami.ubuntu.id
-  instance_type = var.instance_type
+  instance_type = "t2.micro"
   subnet_id     = var.subnet2_id
   vpc_security_group_ids = [aws_security_group.ec2_alb.id]
   user_data = <<-EOF

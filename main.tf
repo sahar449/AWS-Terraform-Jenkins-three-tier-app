@@ -22,8 +22,6 @@ terraform {
     bucket = "sahar-tff" #replace with you bucket
     key    = "terraform.tfstate"
     region = "us-west-2"
-    # dynamodb_table = "terraform-lock-table"
-    # encrypt        = true  
   }
 }
 
@@ -49,6 +47,9 @@ module "alb" {
 }
 
 
-output "alb_dns" {
-  value = module.alb.alb_dns
+#Display the HTML content that I configured in the EC2 user data on the screen.
+resource "null_resource" "example" {
+  provisioner "local-exec" {
+    command = "sleep 30 && curl ${module.alb.alb_dns} && curl ${module.alb.alb_dns}"
+  }
 }
