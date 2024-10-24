@@ -4,6 +4,11 @@
 ## Introduction
 This project uses Terraform to provision AWS infrastructure, including a Virtual Private Cloud (VPC), EC2 instances, Application Load Balancer (ALB), and an Auto Scaling Group (ASG) with Nginx web servers. The setup provides a scalable, load-balanced web server environment hosted on AWS.
 
+
+## Architecture Diagram
+
+![AWS Architecture](./aws-architecture.svg)
+
 ## Table of Contents
 - [Introduction](#introduction)
 - [Features](#features)
