@@ -7,7 +7,7 @@ This project uses Terraform to provision AWS infrastructure, including a Virtual
 
 ## Architecture Diagram
 
-![AWS Architecture](./aws-architecture.svg)
+![AWS Architecture](./aws-architecture-svg.svg)
 
 ## Table of Contents
 - [Introduction](#introduction)
