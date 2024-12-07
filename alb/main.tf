@@ -1,14 +1,15 @@
 ### main alb ###
 
-resource "aws_security_group" "ec2_alb" {
-  name        = "sg_nginx"
+resource "aws_security_group" "alb" {
+  name        = "sg_nginx_neww"
   vpc_id      = var.vpc_id
+
   ingress {
-    description = "HTTP from anywhere"
+    description = "Expose port 80 only for ALB"
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"] 
+    cidr_blocks = ["0.0.0.0/0"]  # Reference to the ALB security group
   }
 
   egress {
@@ -19,7 +20,7 @@ resource "aws_security_group" "ec2_alb" {
   }
 
   tags = {
-    Name = "allow_http"
+    Name = "allow_http_from_alb"
   }
 }
 
@@ -27,7 +28,7 @@ resource "aws_lb" "web" {
   name               = "web-lb-new"
   internal           = false
   load_balancer_type = "application"
-  security_groups    = [var.sg_id]
+  security_groups    = [aws_security_group.alb.id]
   subnets            = [var.subnet1_id, var.subnet2_id]
 
   tags = {

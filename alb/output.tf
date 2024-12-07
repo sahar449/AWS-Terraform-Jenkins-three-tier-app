@@ -1,3 +1,5 @@
+### output alb ##
+
 output "alb_dns" {
   value = aws_lb.web.dns_name
 }
@@ -8,5 +10,5 @@ output "target_group_arn" {
 }
 
 output "sg_id" {
-  value = aws_security_group.ec2_alb.id
+  value = aws_security_group.alb.id
 }

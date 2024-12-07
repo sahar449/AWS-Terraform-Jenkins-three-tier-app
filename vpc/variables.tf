@@ -1,61 +1,67 @@
-### vars vpc ###
-
-variable "vpc_cidr" {
-  description = "CIDR block for the VPC"
-  type        = string
-  default     = "10.0.0.0/16"
-}
-
-variable "subnet_1_cidr" {
-  description = "CIDR block for the first subnet"
-  type        = string
-  default     = "10.0.1.0/24"
-}
-
-variable "subnet_2_cidr" {
-  description = "CIDR block for the second subnet"
-  type        = string
-  default     = "10.0.2.0/24"
-}
-
-variable "availability_zone_1" {
-  description = "Availability zone for the first subnet"
-  type        = string
-  default     = "us-west-2a"
-}
-
-variable "availability_zone_2" {
-  description = "Availability zone for the second subnet"
-  type        = string
-  default     = "us-west-2b"
-}
-
-variable "route_table_name" {
-  description = "Name tag for the route table"
-  type        = string
-  default     = "my_route_table"
-}
-
-variable "internet_gateway_name" {
-  description = "Name tag for the Internet Gateway"
-  type        = string
-  default     = "my_internet_gateway"
-}
-
-variable "subnet_1_name" {
-  description = "Name tag for the first subnet"
-  type        = string
-  default     = "my_subnet_1"
-}
-
-variable "subnet_2_name" {
-  description = "Name tag for the second subnet"
-  type        = string
-  default     = "my_subnet_2"
-}
-
-variable "vpc_name" {
-  description = "Name tag for the VPC"
-  type        = string
-  default     = "my_vpc"
+variable "network_config" {
+  description = "Network configuration for VPC, subnets, IGW, and route table"
+  type = object({
+    vpc = object({
+      cidr_block = string
+      tags       = map(string)
+    })
+    subnets = map(object({
+      cidr_block        = string
+      availability_zone = string
+      map_public_ip     = bool
+      tags              = map(string)
+    }))
+    internet_gateway = object({
+      tags = map(string)
+    })
+    route_table = object({
+      routes = list(object({
+        cidr_block = string
+        gateway_id = string
+      }))
+      tags = map(string)
+    })
+  })
+  default = {
+    vpc = {
+      cidr_block = "10.0.0.0/16"
+      tags = {
+        Name = "my_vpc"
+      }
+    }
+    subnets = {
+      subnet_1 = {
+        cidr_block        = "10.0.1.0/24"
+        availability_zone = "us-west-2a"
+        map_public_ip     = true
+        tags = {
+          Name = "my_subnet_1"
+        }
+      }
+      subnet_2 = {
+        cidr_block        = "10.0.2.0/24"
+        availability_zone = "us-west-2b"
+        map_public_ip     = true
+        tags = {
+          Name = "my_subnet_2"
+        }
+      }
+    }
+    internet_gateway = {
+      tags = {
+        Name = "my_internet_gateway"
+      }
+    }
+    route_table = {
+      routes = [
+        {
+          cidr_block = "0.0.0.0/0"
+          gateway_id = "" # To be dynamically set
+        }
+      ]
+      tags = {
+        Name = "my_route_table"
+      }
+    }
+  }
 }

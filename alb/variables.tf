@@ -25,7 +25,3 @@ variable "ec2_id2" {
   type        = string
 }
 
-
-variable "sg_id" {
-  
-}

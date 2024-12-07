@@ -30,10 +30,13 @@ module "vpc" {
 }
 
 module "ec2" {
-  source          = "./ec2"
-  vpc_id = module.vpc.vpc_id
-  subnet1_id = module.vpc.subnet1_id
-  subnet2_id = module.vpc.subnet2_id
+  source         = "./ec2"
+  vpc_id         = module.vpc.vpc_id
+  subnet_ids     = {
+    subnet_1 = module.vpc.subnet1_id
+    subnet_2 = module.vpc.subnet2_id
+  }
+  sg_alb = module.alb.sg_id
 }
 
 module "alb" {
@@ -43,17 +46,16 @@ module "alb" {
   subnet2_id = module.vpc.subnet2_id
   ec2_id1 = module.ec2.ec2_id1
   ec2_id2 = module.ec2.ec2_id2
-  sg_id     = module.ec2.sg
 }
 
-module "asg" {
-  source = "./asg"
-  subnet1_id = module.vpc.subnet1_id
-  subnet2_id = module.vpc.subnet2_id
-  vpc_id = module.vpc.vpc_id
-  sg_id     = module.ec2.sg
-  lb_target_group_arn = module.alb.target_group_arn
-}
+# module "asg" {
+#   source = "./asg"
+#   subnet1_id = module.vpc.subnet1_id
+#   subnet2_id = module.vpc.subnet2_id
+#   vpc_id = module.vpc.vpc_id
+#   sg_id     = module.ec2.sg
+#   lb_target_group_arn = module.alb.target_group_arn
+# }
 
 
 #Display the HTML content that I configured in the EC2 user data on the screen.
