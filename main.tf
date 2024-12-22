@@ -26,25 +26,6 @@ terraform {
   }
 }
 
-resource "null_resource" "dynamodb_create_table" {
-  provisioner "local-exec" {
-    command = <<EOT
-aws dynamodb create-table \
-    --table-name terraform-lock \
-    --attribute-definitions AttributeName=LockID,AttributeType=S \
-    --key-schema AttributeName=LockID,KeyType=HASH \
-    --billing-mode PAY_PER_REQUEST \
-    --tags "Environment=Production,Purpose=TerraformStateLocking" \
-    --region us-west-2
-EOT
-  }
-
-  triggers = {
-    always_run = "${timestamp()}"
-  }
-}
-
-
 module "vpc" {
   source          = "./vpc"
 }
