@@ -1,7 +1,7 @@
 pipeline{
     agent any
     environment{
-        terraform = "terraform 1.6.3"
+        terraform = "terraform 1.5.0"
     }
    parameters {
         choice(
