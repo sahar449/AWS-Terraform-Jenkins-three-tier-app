@@ -12,10 +12,11 @@ pipeline{
     
     stages{
     
-    stage('create dynamodb to store lock file')
+    stage('create dynamodb to store lock file'){
         steps{
                 sh "aws dynamodb create-table --table-name terraform-lock --attribute-definitions AttributeName=LockID,AttributeType=S --key-schema AttributeName=LockID,KeyType=HASH --billing-mode PAY_PER_REQUEST --tags Key=Environment,Value=Production Key=Purpose,Value=TerraformStateLocking --region us-west-2"
             }
+    }
 
     stage('tf init'){
         steps {
@@ -24,6 +25,7 @@ pipeline{
             credentialsId: 'aws_creds', 
             secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
             sh "terraform init -upgrade -reconfigure"
+            sh "echo execute terraform init"
           }
         }
     }
