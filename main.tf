@@ -22,8 +22,28 @@ terraform {
     key    = "terraform.tfstate"
     region = "us-west-2"
     dynamodb_table = "terraform-lock"
+    
   }
 }
+
+resource "null_resource" "dynamodb_create_table" {
+  provisioner "local-exec" {
+    command = <<EOT
+aws dynamodb create-table \
+    --table-name terraform-lock \
+    --attribute-definitions AttributeName=LockID,AttributeType=S \
+    --key-schema AttributeName=LockID,KeyType=HASH \
+    --billing-mode PAY_PER_REQUEST \
+    --tags "Environment=Production,Purpose=TerraformStateLocking" \
+    --region us-west-2
+EOT
+  }
+
+  triggers = {
+    always_run = "${timestamp()}"
+  }
+}
+
 
 module "vpc" {
   source          = "./vpc"
@@ -48,8 +68,8 @@ module "alb" {
   ec2_id2 = module.ec2.ec2_id2
 }
 
-module "route53_dns" {
-  source = "./route53_dns"
+module "route53" {
+  source = "./route53"
   cname = module.alb.alb_dns
 }
 
@@ -66,6 +86,6 @@ module "asg" {
 #Display the HTML content that I configured in the EC2 user data on the screen.
 resource "null_resource" "example" {
   provisioner "local-exec" {
-    command = "sleep 30 && curl ${module.route53_dns.cname} && curl ${module.route53_dns.cname}"
+    command = "sleep 30 && curl ${module.route53.cname} && curl ${module.route53.cname}"
   }
 }
