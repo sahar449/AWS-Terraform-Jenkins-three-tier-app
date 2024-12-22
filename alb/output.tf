@@ -12,3 +12,7 @@ output "target_group_arn" {
 output "sg_id" {
   value = aws_security_group.alb.id
 }
+
+output "alb_dns_name" {
+  value = aws_lb.web.dns_name
+}

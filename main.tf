@@ -1,9 +1,12 @@
 ### root main ###
 
 provider "aws" {
-  region = "us-west-2" 
+  region = var.region
 }
 
+variable "region" {
+  default = "us-west-2" 
+}
 
 #Terraform Block
 terraform {
@@ -12,10 +15,6 @@ terraform {
     aws = {
       source  = "hashicorp/aws"
       version = "~> 5.0"
-    }
-    http = {
-      source  = "hashicorp/http" # get my public ip for alb sg
-      version = "~> 2.0"
     }
   }
   backend "s3" {
@@ -48,19 +47,24 @@ module "alb" {
   ec2_id2 = module.ec2.ec2_id2
 }
 
-# module "asg" {
-#   source = "./asg"
-#   subnet1_id = module.vpc.subnet1_id
-#   subnet2_id = module.vpc.subnet2_id
-#   vpc_id = module.vpc.vpc_id
-#   sg_id     = module.ec2.sg
-#   lb_target_group_arn = module.alb.target_group_arn
-# }
+module "route53_dns" {
+  source = "./route53_dns"
+  cname = module.alb.alb_dns
+}
+
+module "asg" {
+  source = "./asg"
+  subnet1_id = module.vpc.subnet1_id
+  subnet2_id = module.vpc.subnet2_id
+  vpc_id = module.vpc.vpc_id
+  sg_id     = module.ec2.sg
+  lb_target_group_arn = module.alb.target_group_arn
+}
 
 
 #Display the HTML content that I configured in the EC2 user data on the screen.
 resource "null_resource" "example" {
   provisioner "local-exec" {
-    command = "sleep 30 && curl ${module.alb.alb_dns} && curl ${module.alb.alb_dns}"
+    command = "sleep 30 && curl ${module.route53_dns.cname} && curl ${module.route53_dns.cname}"
   }
 }

@@ -5,7 +5,7 @@ resource "aws_security_group" "ec2_alb" {
   vpc_id      = var.vpc_id
 
   ingress {
-    description = "Expose port 80 only for my public ip"
+    description = "Expose port 80"
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
