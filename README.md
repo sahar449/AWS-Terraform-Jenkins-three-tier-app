@@ -39,7 +39,7 @@ This project uses Terraform to provision AWS infrastructure, including a Virtual
    ```
 2. Navigate into the project directory:
    ```bash
-   cd AWS-tf-alb-Nginx-ASG
+   cd AWS-Terraform-Jenkins-three-tier-app
    ```
 3. Initialize the Terraform modules:
    ```bash
