@@ -25,5 +25,3 @@ variable "ec2_id2" {
   type        = string
 }
 
-# variable "acm_arn" {
-# }
