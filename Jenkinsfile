@@ -11,6 +11,26 @@ pipeline{
     }
     
     stages{
+
+    stage('check if vpc exist'){ 
+            steps {
+                script {
+                    def cidrBlock = "10.0.0.0/16"
+                    def region = "us-west-2"
+                    def vpcCheck = sh(script: """
+                        aws ec2 describe-vpcs --region ${region} \
+                        --filters Name=cidr-block,Values=${cidrBlock} \
+                        --query 'Vpcs[?State==`available`].VpcId' --output text
+                    """, returnStdout: true).trim()
+
+                    if (vpcCheck) {
+                        echo "VPC found: ${vpcCheck}"
+                    } else {
+                        echo "No VPC with CIDR ${cidrBlock} found in region ${region}."
+                    }
+                }
+            }
+        }
     
     stage('create dynamodb to store lock file'){
         steps{
