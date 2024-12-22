@@ -30,8 +30,7 @@ pipeline{
             }
         }
     
-    stages {
-        stage('Check and Create DynamoDB Table') {
+    stage('Check and Create DynamoDB Table') {
             steps {
                 script {
                     def tableName = "existing-table-name"
@@ -60,7 +59,6 @@ pipeline{
                 }
             }
         }
-    }
 
     stage('tf init'){
         steps {
