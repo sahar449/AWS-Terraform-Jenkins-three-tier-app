@@ -1,18 +1,18 @@
-# Create a VPC
+# Create VPC
 resource "aws_vpc" "my_vpc" {
-  cidr_block = var.network_config.vpc.cidr_block
-  tags       = var.network_config.vpc.tags
+  cidr_block = var.vpc.cidr_block
+  tags       = var.vpc.tags
 }
 
-# Create an Internet Gateway
+# Create Internet Gateway
 resource "aws_internet_gateway" "my_igw" {
   vpc_id = aws_vpc.my_vpc.id
-  tags   = var.network_config.internet_gateway.tags
+  tags   = var.internet_gateway.tags
 }
 
 # Create Subnets
 resource "aws_subnet" "subnets" {
-  for_each = var.network_config.subnets
+  for_each = var.subnets
 
   vpc_id                  = aws_vpc.my_vpc.id
   cidr_block              = each.value.cidr_block
@@ -25,16 +25,15 @@ resource "aws_subnet" "subnets" {
 resource "aws_route_table" "my_route_table" {
   vpc_id = aws_vpc.my_vpc.id
 
-  # Use a for expression to iterate over routes
   dynamic "route" {
-    for_each = var.network_config.route_table.routes
+    for_each = var.route_table.routes
     content {
       cidr_block = route.value.cidr_block
       gateway_id = aws_internet_gateway.my_igw.id
     }
   }
 
-  tags = var.network_config.route_table.tags
+  tags = var.route_table.tags
 }
 
 # Associate the Route Table with Subnets

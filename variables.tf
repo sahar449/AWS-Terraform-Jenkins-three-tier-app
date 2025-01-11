@@ -1,6 +1,9 @@
-# variables.tf (VPC Module)
+### variables root ###
 
-# Define variables for the VPC module
+variable "region" {
+  default = ""
+}
+
 
 variable "vpc" {
   description = "VPC configuration"
@@ -37,3 +40,4 @@ variable "route_table" {
     tags = map(string)
   })
 }
+

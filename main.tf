@@ -4,10 +4,6 @@ provider "aws" {
   region = var.region
 }
 
-variable "region" {
-  default = "us-west-2" 
-}
-
 #Terraform Block
 terraform {
   required_version = "~> 1.9.0" 
@@ -28,6 +24,10 @@ terraform {
 
 module "vpc" {
   source          = "./vpc"
+  vpc = var.vpc
+  subnets = var.subnets
+  internet_gateway = var.internet_gateway
+  route_table = var.route_table
 }
 
 module "ec2" {
