@@ -3,6 +3,7 @@
 resource "aws_security_group" "ec2_alb" {
   name        = "sg_nginx_new"
   vpc_id      = var.vpc_id
+  description = "sg for ec2"
 
   ingress {
     description = "Expose port 80"
